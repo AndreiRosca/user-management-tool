@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>User management tool</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css">
+<link href="/css/starter-template.css" rel="stylesheet"
+	type="text/css">
 </head>
+
 <body>
-	<h1 th:text="${greeting}"></h1>
+
+	<div th:insert="fragments/header.html :: header"></div>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1 th:text="${greeting}"></h1>
+		</div>
+
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>#ID</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Frameworks</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">1</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>@mdo</td>
+					<td>
+						<div style="margin: 0 auto">
+							<button class="btn btn-primary">Query</button>
+							<button class="btn btn-info">Update</button>
+							<button class="btn btn-danger">Delete</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div th:insert="fragments/footer.html :: footer"></div>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/bootstrap4/assets/js/vendor/popper.min.js"></script>
+	<script src="/bootstrap4/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

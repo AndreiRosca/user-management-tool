@@ -13,7 +13,7 @@ import org.thymeleaf.context.WebContext;
 
 import com.endava.user.management.web.util.TemplateEngineUtil;
 
-@WebServlet(urlPatterns = { "/" })
+@WebServlet(urlPatterns = { "/welcome" })
 public class WelcomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
