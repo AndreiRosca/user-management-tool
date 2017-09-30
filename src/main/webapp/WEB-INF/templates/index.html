@@ -34,11 +34,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@mdo</td>
+				<tr th:each="user : ${users}">
+					<th scope="row" th:text="${user.id}">1</th>
+					<td th:text="${user.name}">Mark</td>
+					<td th:text="${user.email}">Otto@gmail.oc</td>
+					<td th:text="${user.frameworks}">@mdo</td>
 					<td>
 						<div style="margin: 0 auto">
 							<button class="btn btn-primary">Query</button>

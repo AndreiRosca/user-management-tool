@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import com.endava.user.management.repository.UserRepository;
 import com.endava.user.management.web.util.TemplateEngineUtil;
 
-@WebServlet(urlPatterns = { "/welcome" })
+@WebServlet(urlPatterns = { "/users" })
 public class WelcomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +22,8 @@ public class WelcomeServlet extends HttpServlet {
 		TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(getServletContext());
 		WebContext context = new WebContext(request, response, getServletContext());
 		context.setVariable("greeting", "Welcome to servlets!");
+		UserRepository userRepository = (UserRepository) request.getAttribute("repository");
+		context.setVariable("users", userRepository.findAll());
 		engine.process("index.html", context, response.getWriter());
 	}
 }
