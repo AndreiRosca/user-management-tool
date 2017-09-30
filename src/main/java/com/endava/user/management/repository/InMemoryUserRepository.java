@@ -12,28 +12,32 @@ import com.endava.user.management.domain.User;
 
 public class InMemoryUserRepository implements UserRepository {
 	private static final AtomicLong idGenerator = new AtomicLong();
-	private Map<Long, User> users = new ConcurrentHashMap<>();
+	private static final Map<Long, User> users = new ConcurrentHashMap<>();
+	private static boolean isInitialized;
 
 	public InMemoryUserRepository() {
-		User u1 = User.newBuilder()
-				.setSex(Sex.MALE)
-				.setName("John Smith")
-				.setEmail("john@gmail.com")
-				.addFramework(new Framework("Hibernate"))
-				.addFramework(new Framework("Spring MVC"))
-				.addFramework(new Framework("JSF"))
-				.build();
-		create(u1 );
-		
-		User u2 = User.newBuilder()
-				.setSex(Sex.FEMALE)
-				.setName("Vanessa Kate")
-				.setEmail("vanessa@gmail.com")
-				.addFramework(new Framework("JDBC"))
-				.addFramework(new Framework("Spring Boot"))
-				.addFramework(new Framework("ActiveMQ"))
-				.build();
-		create(u2);
+		if (!isInitialized) { 
+			User u1 = User.newBuilder()
+					.setSex(Sex.MALE)
+					.setName("John Smith")
+					.setEmail("john@gmail.com")
+					.addFramework(new Framework("Hibernate"))
+					.addFramework(new Framework("Spring MVC"))
+					.addFramework(new Framework("JSF"))
+					.build();
+			create(u1 );
+			
+			User u2 = User.newBuilder()
+					.setSex(Sex.FEMALE)
+					.setName("Vanessa Kate")
+					.setEmail("vanessa@gmail.com")
+					.addFramework(new Framework("JDBC"))
+					.addFramework(new Framework("Spring Boot"))
+					.addFramework(new Framework("ActiveMQ"))
+					.build();
+			create(u2);
+			isInitialized = true;			
+		}
 	}
 
 	@Override
