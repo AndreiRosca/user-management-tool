@@ -7,8 +7,8 @@
 <title>User management tool</title>
 
 <!-- Bootstrap core CSS -->
-<link href="/static/bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet"
-	type="text/css">
+<link href="/static/bootstrap4/dist/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
 <link href="/static/css/starter-template.css" rel="stylesheet"
 	type="text/css">
 </head>
@@ -41,8 +41,10 @@
 					<td th:text="${user.frameworks}">jsf</td>
 					<td>
 						<div style="margin: 0 auto">
-							<button type="button" class="btn btn-primary showUserButton">Query</button>
-							<button type="button" class="btn btn-info">Update</button>
+							<button type="button" class="btn btn-primary showUserButton"
+								th:attr="data-user-id=${user.id}">Query</button>
+							<button type="button" class="btn btn-info updateUserButton"
+								th:attr="data-user-id=${user.id}">Update</button>
 							<button type="button" class="btn btn-danger deleteUserButton"
 								th:attr="data-user-id=${user.id}">Delete</button>
 						</div>
