@@ -1,6 +1,7 @@
 package com.endava.user.management.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,5 +21,17 @@ public class UserServlet extends HttpServlet {
 		long userId = Long.valueOf(parts[1]);
 		UserRepository repository = (UserRepository) request.getAttribute("repository");
 		repository.delete(userId);
+	}
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		String pathInfo = request.getPathInfo();
+		String[] parts = pathInfo.split("/");
+		long userId = Long.valueOf(parts[1]);
+		if (parts.length > 2 && "update".equalsIgnoreCase(parts[2])) {
+			System.out.println("edit user" + userId);
+		} else {
+			System.out.println("query user" + userId);
+		}
 	}
 }
