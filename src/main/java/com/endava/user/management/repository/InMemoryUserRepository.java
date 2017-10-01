@@ -1,11 +1,13 @@
 package com.endava.user.management.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import com.endava.user.management.domain.Address;
 import com.endava.user.management.domain.Framework;
 import com.endava.user.management.domain.Sex;
 import com.endava.user.management.domain.User;
@@ -21,6 +23,13 @@ public class InMemoryUserRepository implements UserRepository {
 					.setSex(Sex.MALE)
 					.setName("John Smith")
 					.setEmail("john@gmail.com")
+					.setBirthDate(new Date())
+					.setAddress(Address.newBuilder()
+							.setCountry("USA")
+							.setCity("Los Angeles")
+							.setState("California")
+							.setZipCode("1234")
+							.build())
 					.addFramework(new Framework("Hibernate"))
 					.addFramework(new Framework("Spring MVC"))
 					.addFramework(new Framework("JSF"))
@@ -31,6 +40,13 @@ public class InMemoryUserRepository implements UserRepository {
 					.setSex(Sex.FEMALE)
 					.setName("Vanessa Kate")
 					.setEmail("vanessa@gmail.com")
+					.setBirthDate(new Date())
+					.setAddress(Address.newBuilder()
+							.setCountry("USA")
+							.setCity("New York City")
+							.setState("New York")
+							.setZipCode("5454")
+							.build())
 					.addFramework(new Framework("JDBC"))
 					.addFramework(new Framework("Spring Boot"))
 					.addFramework(new Framework("ActiveMQ"))

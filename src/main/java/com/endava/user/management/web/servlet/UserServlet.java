@@ -1,7 +1,9 @@
 package com.endava.user.management.web.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import com.endava.user.management.domain.Sex;
 import com.endava.user.management.repository.UserRepository;
 import com.endava.user.management.web.util.TemplateEngineUtil;
 
@@ -37,17 +40,26 @@ public class UserServlet extends HttpServlet {
 		}
 	}
 
-	private void updateUser(HttpServletRequest request, HttpServletResponse response, long userId) {
-		// TODO Auto-generated method stub
-		
+	private void updateUser(HttpServletRequest request, HttpServletResponse response, long userId) throws IOException {
+		UserRepository repository = (UserRepository) request.getAttribute("repository");
+		Map<String, Object> model = new HashMap<>();
+		model.put("user", repository.findById(userId));
+		model.put("genders", Sex.values());
+		renderModel(request, response, "updateUser.html", model);
+	}
+	
+	private void renderModel(HttpServletRequest request, HttpServletResponse response, 
+			String viewName, Map<String, Object> model) throws IOException {
+		TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(getServletContext());
+		WebContext context = new WebContext(request, response, getServletContext());
+		model.forEach((key, value) -> context.setVariable(key, value));
+		engine.process(viewName, context, response.getWriter());		
 	}
 
 	private void queryUser(HttpServletRequest request, HttpServletResponse response, long userId) throws IOException {
-		TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(getServletContext());
 		UserRepository repository = (UserRepository) request.getAttribute("repository");
-		WebContext context = new WebContext(request, response, getServletContext());
-		context.setVariable("user", repository.findById(userId));
-		engine.process("queryUser.html", context, response.getWriter());
+		Map<String, Object> model = Collections.singletonMap("user", repository.findById(userId));
+		renderModel(request, response, "queryUser.html", model);
 	}
 
 	private static class Path {

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>User management tool</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/static/bootstrap4/dist/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
+<link href="/static/css/starter-template.css" rel="stylesheet"
+	type="text/css">
+</head>
+
+<body>
+
+	<div th:insert="fragments/header.html :: header"></div>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Query user</h1>
+
+		</div>
+		<form class="form-horizontal" th:object="${user}">
+			<div class="form-group">
+				<label class="col-sm-2">Name</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="name" id="name"
+						th:value="*{name}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Email</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="email" name="email" id="email"
+						th:value="*{email}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Country</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="country" id="country"
+						th:value="*{address.country}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">City</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="city" id="city"
+						th:value="*{address.city}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">State</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="state" id="state"
+						th:value="*{address.state}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Zip code</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="zipCode" id="zipCode"
+						th:value="*{address.zipCode}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Gender</label>
+				<div class="col-sm-3">
+					<select name="sex" id="sex" class="form-control">
+						<option th:each="gender : ${genders}" th:text="${gender}">Female</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-10">
+				<label class="col-sm-2">Frameworks</label>
+				<div class="col-sm-4 input-group"
+					th:each="framework, stat : *{frameworks}">
+					<input class="form-control" type="text" th:value="${framework}"
+						th:attr="name=${'frameworks[' + stat.index + ']'}" /> <span
+						class="input-group-btn">
+						<button type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-remove"></span> Remove
+						</button>
+					</span>
+				</div>
+				<br />
+				<div class="col-sm-6" style="text-align: center">
+					<button type="button" class="btn btn-info">Add framework</button>
+				</div>
+				<br />
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6" style="text-align: center">
+					<button type="button" class="btn btn-primary">Update</button>
+				</div>
+			</div>
+		</form>
+
+
+		<div th:insert="fragments/footer.html :: footer"></div>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="/static/js/jquery/jquery-3.2.1.min.js"></script>
+	<script src="/static/bootstrap4/assets/js/vendor/popper.min.js"></script>
+	<script src="/static/bootstrap4/dist/js/bootstrap.min.js"></script>
+	<script src="/static/js/queryUser.js"></script>
+</body>
+</html>
