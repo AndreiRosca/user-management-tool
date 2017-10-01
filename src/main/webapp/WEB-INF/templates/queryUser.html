@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>User management tool</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/static/bootstrap4/dist/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
+<link href="/static/css/starter-template.css" rel="stylesheet"
+	type="text/css">
+</head>
+
+<body>
+
+	<div th:insert="fragments/header.html :: header"></div>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Query user</h1>
+		</div>
+
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<th scope="row">ID</th>
+					<td th:text="${user.id}">1</td>
+				</tr>
+				<tr>
+					<th scope="row">Name</th>
+					<td th:text="${user.name}">Mike</td>
+				</tr>
+				<tr>
+					<th scope="row">Email</th>
+					<td th:text="${user.email}">mike@gmail.com</td>
+				</tr>
+				<tr>
+					<th scope="row">Sex</th>
+					<td th:text="${user.sex}">Male</td>
+				</tr>
+				<tr>
+					<th scope="row">Birthdate</th>
+					<td th:text="${user.birthDate}">04/10/1994</td>
+				</tr>
+				<tr>
+					<th scope="row">Address</th>
+					<td th:text="${user.address}">Baker street 42/1</td>
+				</tr>
+				<tr>
+					<th scope="row">Frameworks</th>
+					<td th:text="${user.frameworks}">Spring MVC</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div style="text-align: center">
+							<button type="button" class="btn btn-primary backToUsersButton">Back
+								to users</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div th:insert="fragments/footer.html :: footer"></div>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="/static/js/jquery-3.2.1.min.js"></script>
+	<script src="/static/bootstrap4/assets/js/vendor/popper.min.js"></script>
+	<script src="/static/bootstrap4/dist/js/bootstrap.min.js"></script>
+	<script src="/static/js/queryUser.js"></script>
+</body>
+</html>

@@ -27,7 +27,7 @@ function setUpQueryUserButtonHandler() {
 }
 
 function setUpUpdateUserButtonHandler() {
-	$(".updateUserButton").click(function (e) {
+	$(".updateUserButton").click(function(e) {
 		const userId = getUserId(e);
 		location.href = `/users/${userId}/update`;
 	});
