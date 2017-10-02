@@ -1,4 +1,4 @@
-package com.endava.user.management.web.listener;
+package com.endava.user.management.web.filter;
 
 import java.io.IOException;
 
@@ -25,5 +25,9 @@ public class StaticContentServingFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		defaultDispatcher = filterConfig.getServletContext().getNamedDispatcher("default");
+	}
+
+	@Override
+	public void destroy() {
 	}
 }

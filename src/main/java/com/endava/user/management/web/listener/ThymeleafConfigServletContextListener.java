@@ -33,4 +33,8 @@ public class ThymeleafConfigServletContextListener implements ServletContextList
 		resolver.setTemplateMode(TemplateMode.HTML);
 		return resolver;
 	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+	}
 }

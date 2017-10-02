@@ -1,6 +1,7 @@
 package com.endava.user.management.web.servlet;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +33,19 @@ public class UserServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Path path = new Path(request.getPathInfo());
-		long userId = path.getUserId();
+		System.out.println(path);
 		if (path.requestIsUpdateUser()) {
-			updateUser(request, response, userId);
-		} else {
-			queryUser(request, response, userId);
+			updateUser(request, response, path.getUserId());
+		} else if (path.requestIsQueryUser()) {
+			queryUser(request, response, path.getUserId());
+		} else if (path.requestIsAddUser()) {
+			showAddUserForm(request, response);
 		}
+	}
+
+	private void showAddUserForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Map<String, Object> model = Collections.singletonMap("genders", Sex.values());
+		renderModel(request, response, "addUser.html", model);
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response, long userId) throws IOException {
@@ -72,13 +80,21 @@ public class UserServlet extends HttpServlet {
 		public long getUserId() {
 			return Long.valueOf(parts[1]);
 		}
+		
+		public boolean requestIsAddUser() {
+			return parts.length > 1 && "add".equalsIgnoreCase(parts[1]);
+		}
 
 		public boolean requestIsQueryUser() {
-			return !requestIsUpdateUser();
+			return parts.length < 2 && parts[1].matches("\\d+");
 		}
 
 		public boolean requestIsUpdateUser() {
 			return parts.length > 2 && "update".equalsIgnoreCase(parts[2]);
+		}
+		
+		public String toString() {
+			return Arrays.toString(parts);
 		}
 	}
 }

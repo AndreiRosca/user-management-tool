@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>User management tool</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/static/bootstrap4/dist/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css">
+<link href="/static/css/starter-template.css" rel="stylesheet"
+	type="text/css">
+</head>
+
+<body>
+
+	<div th:insert="fragments/header.html :: header"></div>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Add user</h1>
+
+		</div>
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2">Name</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="name" id="name" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Email</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="email" name="email" id="email" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Country</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="country" id="country" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">City</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="city" id="city" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">State</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="state" id="state" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Zip code</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="zipCode" id="zipCode" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Gender</label>
+				<div class="col-sm-3">
+					<select name="sex" id="sex" class="form-control">
+						<option th:each="gender : ${genders}" th:text="${gender}">Female</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-10">
+				<label class="col-sm-2">Frameworks</label>
+				<div id="frameworksContainer">
+					<div class="col-sm-4 input-group" id="framework_0">
+						<input class="form-control" type="text" name="frameworks[0]" /> <span
+							class="input-group-btn">
+							<button type="button"
+								class="btn btn-default removeFrameworkButton"
+								data-framework-index="0">
+								<span class="glyphicon glyphicon-remove"></span> Remove
+							</button>
+						</span>
+					</div>
+				</div>
+				<br />
+				<div class="col-sm-6" style="text-align: center">
+					<button type="button" class="btn btn-info addFrameworkButton">Add
+						framework</button>
+				</div>
+				<br />
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">CV file</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="file" name="cvFile" id="cvFile" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6" style="text-align: center">
+					<button type="button" class="btn btn-primary updateUserButton">Add user</button>
+				</div>
+			</div>
+		</form>
+
+		<div th:insert="fragments/footer.html :: footer"></div>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="/static/bootstrap4/assets/js/vendor/popper.min.js"></script>
+	<script src="/static/bootstrap4/dist/js/bootstrap.min.js"></script>
+	<script src="/static/js/updateUser.js"></script>
+</body>
+</html>
