@@ -24,6 +24,6 @@ public class WelcomeServlet extends HttpServlet {
 		context.setVariable("greeting", "Welcome to servlets!");
 		UserRepository userRepository = (UserRepository) request.getAttribute("repository");
 		context.setVariable("users", userRepository.findAll());
-		engine.process("index.html", context, response.getWriter());
+		engine.process("index", context, response.getWriter());
 	}
 }

@@ -45,7 +45,7 @@ public class UserServlet extends HttpServlet {
 
 	private void showAddUserForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, Object> model = Collections.singletonMap("genders", Sex.values());
-		renderModel(request, response, "addUser.html", model);
+		renderModel(request, response, "addUser", model);
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response, long userId) throws IOException {
@@ -53,7 +53,7 @@ public class UserServlet extends HttpServlet {
 		Map<String, Object> model = new HashMap<>();
 		model.put("user", repository.findById(userId));
 		model.put("genders", Sex.values());
-		renderModel(request, response, "updateUser.html", model);
+		renderModel(request, response, "updateUser", model);
 	}
 	
 	private void renderModel(HttpServletRequest request, HttpServletResponse response, 
@@ -67,7 +67,7 @@ public class UserServlet extends HttpServlet {
 	private void queryUser(HttpServletRequest request, HttpServletResponse response, long userId) throws IOException {
 		UserRepository repository = (UserRepository) request.getAttribute("repository");
 		Map<String, Object> model = Collections.singletonMap("user", repository.findById(userId));
-		renderModel(request, response, "queryUser.html", model);
+		renderModel(request, response, "queryUser", model);
 	}
 
 	private static class Path {
@@ -86,7 +86,8 @@ public class UserServlet extends HttpServlet {
 		}
 
 		public boolean requestIsQueryUser() {
-			return parts.length < 2 && parts[1].matches("\\d+");
+			return parts.length == 2 && parts[1].matches("\\d+");
+			
 		}
 
 		public boolean requestIsUpdateUser() {
