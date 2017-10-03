@@ -8,32 +8,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-
-import com.endava.user.management.repository.UserRepository;
-import com.endava.user.management.web.util.TemplateEngineUtil;
+import com.endava.user.management.renderer.ViewRenderer;
+import com.endava.user.management.web.controller.Controller;
+import com.endava.user.management.web.controller.ModelAndView;
+import com.endava.user.management.web.controller.Request;
+import com.endava.user.management.web.util.HandlerMappingUtil;
 
 @WebServlet(urlPatterns = { "/*" })
 public class FrontControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private void handleRequest(HttpServletRequest request, HttpServletResponse response) {
+		String httpMethod = request.getMethod().toLowerCase();
+		String pathInfo = request.getPathInfo();
+		Controller controller = new HandlerMappingUtil(getServletContext()).getControllerFor(httpMethod, pathInfo);
+		ModelAndView modelAndView = controller.handleRequest(Request.newBuilder()
+				.setHttpMethod(httpMethod)
+				.setHttpRequest(request)
+				.setHttpResponse(response)
+				.setUrlInfo(pathInfo)
+				.setUrlMapping(controller.getUrlMapping())
+				.build());
+		ViewRenderer renderer = new ViewRenderer(request, response, modelAndView);
+		renderer.render();
+	}
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		handleRequest(request, response);
-	}
-	
-	private void oldHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(getServletContext());
-		WebContext context = new WebContext(request, response, getServletContext());
-		context.setVariable("greeting", "Welcome to servlets!");
-		UserRepository userRepository = (UserRepository) request.getAttribute("repository");
-		context.setVariable("users", userRepository.findAll());
-		engine.process("index", context, response.getWriter());
-	}
-
-	private void handleRequest(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

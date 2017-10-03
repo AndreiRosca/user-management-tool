@@ -1,7 +1,6 @@
 package com.endava.user.management.renderer;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,20 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import com.endava.user.management.web.controller.ModelAndView;
 import com.endava.user.management.web.util.TemplateEngineUtil;
 
 public class ViewRenderer {
 	private final HttpServletRequest request;
 	private final HttpServletResponse response;
-	private final Map<String, Object> model;
-	private final String viewName;
+	private final ModelAndView modelAndView;
 
-	public ViewRenderer(HttpServletRequest request, HttpServletResponse reponse, Map<String, Object> model,
-			String viewName) {
+	public ViewRenderer(HttpServletRequest request, HttpServletResponse reponse, ModelAndView modelAndView) {
 		this.request = request;
 		this.response = reponse;
-		this.model = model;
-		this.viewName = viewName;
+		this.modelAndView = modelAndView;
 	}
 
 	public void render() {
@@ -34,9 +31,11 @@ public class ViewRenderer {
 	}
 
 	public void tryRender() throws IOException {
-		TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-		WebContext context = new WebContext(request, response, request.getServletContext());
-		model.forEach((key, value) -> context.setVariable(key, value));
-		engine.process(viewName, context, response.getWriter());
+		if (modelAndView.hasView()) {
+			TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+			WebContext context = new WebContext(request, response, request.getServletContext());
+			modelAndView.getModel().forEach((key, value) -> context.setVariable(key, value));
+			engine.process(modelAndView.getViewName(), context, response.getWriter());			
+		}
 	}
 }

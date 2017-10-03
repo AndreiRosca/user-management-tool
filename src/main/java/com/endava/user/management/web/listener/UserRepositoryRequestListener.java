@@ -5,6 +5,7 @@ import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.annotation.WebListener;
 
+import com.endava.user.management.context.AppContext;
 import com.endava.user.management.repository.InMemoryUserRepository;
 
 @WebListener
@@ -13,7 +14,7 @@ public class UserRepositoryRequestListener implements ServletRequestListener {
 	@Override
 	public void requestInitialized(ServletRequestEvent sre) {
 		ServletRequest request = sre.getServletRequest();
-		request.setAttribute("repository", new InMemoryUserRepository());
+		request.setAttribute(AppContext.Repository, new InMemoryUserRepository());
 	}
 
 	@Override

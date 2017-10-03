@@ -1,6 +1,6 @@
 package com.endava.user.management.domain;
 
-public enum Sex {
+public enum Gender {
 	MALE, FEMALE;
 	
 	public String toString() {

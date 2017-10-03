@@ -11,7 +11,7 @@ public class User {
 	private String email;
 	private List<Framework> frameworks = new ArrayList<>();
 	private Address address;
-	private Sex sex;
+	private Gender sex;
 	private Date birthDate;
 
 	private User() {
@@ -41,7 +41,7 @@ public class User {
 		return address;
 	}
 
-	public Sex getSex() {
+	public Gender getSex() {
 		return sex;
 	}
 
@@ -71,7 +71,7 @@ public class User {
 			return this;
 		}
 
-		public UserBuilder setSex(Sex sex) {
+		public UserBuilder setSex(Gender sex) {
 			user.sex = sex;
 			return this;
 		}

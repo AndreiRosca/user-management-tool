@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import com.endava.user.management.domain.Address;
 import com.endava.user.management.domain.Framework;
-import com.endava.user.management.domain.Sex;
+import com.endava.user.management.domain.Gender;
 import com.endava.user.management.domain.User;
 
 public class InMemoryUserRepository implements UserRepository {
@@ -20,7 +20,7 @@ public class InMemoryUserRepository implements UserRepository {
 	public InMemoryUserRepository() {
 		if (!isInitialized) { 
 			User u1 = User.newBuilder()
-					.setSex(Sex.MALE)
+					.setSex(Gender.MALE)
 					.setName("John Smith")
 					.setEmail("john@gmail.com")
 					.setBirthDate(new Date())
@@ -37,7 +37,7 @@ public class InMemoryUserRepository implements UserRepository {
 			create(u1 );
 			
 			User u2 = User.newBuilder()
-					.setSex(Sex.FEMALE)
+					.setSex(Gender.FEMALE)
 					.setName("Vanessa Kate")
 					.setEmail("vanessa@gmail.com")
 					.setBirthDate(new Date())
