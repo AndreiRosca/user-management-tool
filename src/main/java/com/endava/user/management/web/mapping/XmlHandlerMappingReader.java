@@ -1,4 +1,4 @@
-package com.endava.user.management.web.util;
+package com.endava.user.management.web.mapping;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -29,5 +29,8 @@
 		<mapping method="get">
 			<url-pattern>/addUser</url-pattern>
 		</mapping>
+		<mapping method="post">
+			<url-pattern>/addUser</url-pattern>
+		</mapping>
 	</controller>
 </controllers>

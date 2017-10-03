@@ -2,7 +2,7 @@ package com.endava.user.management.path.util;
 
 import org.junit.Test;
 
-import com.endava.user.management.web.util.XmlHandlerMappingReader;
+import com.endava.user.management.web.mapping.XmlHandlerMappingReader;
 
 public class XmlHandlerMappingReaderTest {
 

@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebListener;
 
 import com.endava.user.management.context.AppContext;
 import com.endava.user.management.web.mapping.HandlerMappingRegistry;
-import com.endava.user.management.web.util.XmlHandlerMappingReader;
+import com.endava.user.management.web.mapping.XmlHandlerMappingReader;
 
 @WebListener
 public class HandlerMappingServletContextListener implements ServletContextListener {

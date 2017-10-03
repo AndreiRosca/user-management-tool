@@ -5,6 +5,8 @@
 	id="WebApp_ID" version="3.1">
 	<display-name>user-management-tool</display-name>
 
-
+	<welcome-file-list>
+		<welcome-file>/welcome</welcome-file>
+	</welcome-file-list>
 
 </web-app>

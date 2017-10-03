@@ -32,10 +32,36 @@ public class ViewRenderer {
 
 	public void tryRender() throws IOException {
 		if (modelAndView.hasView()) {
-			TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-			WebContext context = new WebContext(request, response, request.getServletContext());
-			modelAndView.getModel().forEach((key, value) -> context.setVariable(key, value));
-			engine.process(modelAndView.getViewName(), context, response.getWriter());			
+			if (viewNameIsRedirect())
+				redirect();
+			else {
+				TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+				WebContext context = new WebContext(request, response, request.getServletContext());
+				modelAndView.getModel().forEach((key, value) -> context.setVariable(key, value));
+				engine.process(modelAndView.getViewName(), context, response.getWriter());
+			}
 		}
+	}
+
+	private void redirect() {
+		try {
+			tryRedirect();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void tryRedirect() throws IOException {
+		String viewName = modelAndView.getViewName();
+		String redirectUrl = skipRedirectTokenFromViewName(viewName);
+		response.sendRedirect(redirectUrl);
+	}
+
+	private String skipRedirectTokenFromViewName(String viewName) {
+		return viewName.substring(viewName.indexOf(":") + 1);
+	}
+
+	private boolean viewNameIsRedirect() {
+		return modelAndView.getViewName().startsWith("redirect:");
 	}
 }
