@@ -9,7 +9,7 @@ public class NonEmptyFileValidator implements ConstraintValidator<NonEmptyFile, 
 	@Override
 	public boolean isValid(Part filePart, ConstraintValidatorContext context) {
 		if (filePart != null) {
-			return !(filePart.getSize() == 0 && "".equals(filePart.getSubmittedFileName()));			
+			return !(filePart.getSize() == 0 || "".equals(filePart.getSubmittedFileName()));			
 		}
 		return false;
 	}

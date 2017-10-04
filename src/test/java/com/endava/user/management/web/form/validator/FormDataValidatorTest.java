@@ -23,7 +23,8 @@ public class FormDataValidatorTest {
 	@Before
 	public void setUp() {
 		filePart = mock(Part.class);
-		when(filePart.getSubmittedFileName()).thenReturn("");
+		when(filePart.getSubmittedFileName()).thenReturn("cv.txt");
+		when(filePart.getSize()).thenReturn(10L);
 		userForm = CreateUserForm.newBuiler()
 				.setCity("Los angeles")
 				.setCountry("USA")
@@ -34,6 +35,7 @@ public class FormDataValidatorTest {
 				.setName("Mike Smith")
 				.setCvFile(filePart)
 				.addFramework("Spring Core")
+				.setBirthDate("10/04/1994")
 				.build();
 	}
 	
@@ -99,6 +101,20 @@ public class FormDataValidatorTest {
 		assertFalse(validator.isValid());
 	}
 	
+	@Test
+	public void validatorAcceptsValidDates() {
+		userForm.setBirthDate("10/04/1994");
+		validateUserForm();
+		assertTrue(validator.isValid());
+	}
+	
+	@Test
+	public void validatorRejectsValidDates() {
+		userForm.setBirthDate("110/04/1994");
+		validateUserForm();
+		assertFalse(validator.isValid());
+	}
+
 	private void validateUserForm() {
 	 validator = new FormDataValidator<CreateUserForm>(userForm);
 	 validator.validate();

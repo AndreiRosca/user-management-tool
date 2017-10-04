@@ -43,7 +43,7 @@
 				</tr>
 				<tr>
 					<th scope="row">Birthdate</th>
-					<td th:text="${user.birthDate}">04/10/1994</td>
+					<td th:text="${#dates.format(user.birthDate, 'MM/dd/yyyy')}">04/10/1994</td>
 				</tr>
 				<tr>
 					<th scope="row">Address</th>

@@ -39,7 +39,7 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private Gender sex;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 	

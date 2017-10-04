@@ -3,6 +3,9 @@ package com.endava.user.management.web.controller.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +78,7 @@ public class AddUserController extends AbstractController {
 				.setCvFilePath(cvFilePath)
 				.setCvFileContent(getCvFileContent(userForm.getCvFile()))
 				.setFrameworks(getFormFrameworks(userForm))
+				.setBirthDate(parseBirthdate(userForm.getBirthDate()))
 				.setAddress(Address.newBuilder()
 						.setCountry(userForm.getCountry())
 						.setCity(userForm.getCity())
@@ -83,6 +87,15 @@ public class AddUserController extends AbstractController {
 						.build())
 				.build();
 		return user;
+	}
+
+	private Date parseBirthdate(String birthDate) {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+			return format.parse(birthDate);
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private byte[] tryGetCvFileContent(Part filePart) throws IOException {

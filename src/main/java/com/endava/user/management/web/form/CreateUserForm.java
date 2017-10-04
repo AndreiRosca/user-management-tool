@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import com.endava.user.management.web.form.validator.NonEmptyFile;
 
 public class CreateUserForm {
+	public static final String DATE_PATTERN = "(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9]{2}";
 
 	@Size(min = 0)
 	@Pattern(regexp = "\\d*")
@@ -55,6 +56,11 @@ public class CreateUserForm {
 	@NotNull
 	@NonEmptyFile
 	private Part cvFile;
+	
+	@NotNull
+	//@Size(min = 10)
+	@Pattern(regexp = DATE_PATTERN)
+	private String birthDate;
 
 	private CreateUserForm(Builder builder) {
 		this.id = builder.id;
@@ -67,6 +73,7 @@ public class CreateUserForm {
 		this.gender = builder.gender;
 		this.frameworks = builder.frameworks;
 		this.cvFile = builder.cvFile;
+		this.birthDate = builder.birthDate;
 	}
 	
 	public CreateUserForm() {
@@ -152,6 +159,14 @@ public class CreateUserForm {
 		this.cvFile = cvFile;
 	}
 	
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public void addFramework(String framework) {
 		frameworks.add(framework);
 	}
@@ -178,6 +193,7 @@ public class CreateUserForm {
 		private String gender;
 		private List<String> frameworks = new ArrayList<>();
 		private Part cvFile;
+		public String birthDate;
 
 		private Builder() {
 		}
@@ -229,6 +245,11 @@ public class CreateUserForm {
 
 		public Builder setCvFile(Part cvFile) {
 			this.cvFile = cvFile;
+			return this;
+		}
+		
+		public Builder setBirthDate(String birthDate) {
+			this.birthDate = birthDate;
 			return this;
 		}
 

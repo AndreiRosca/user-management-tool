@@ -11,6 +11,8 @@
 	rel="stylesheet" type="text/css">
 <link href="/static/css/starter-template.css" rel="stylesheet"
 	type="text/css">
+<link href="/static/datepicker/bootstrap-datepicker3.standalone.min.css" rel="stylesheet"
+	type="text/css">
 </head>
 
 <body>
@@ -23,7 +25,8 @@
 			<h1>Add user</h1>
 
 		</div>
-		<form class="form-horizontal" th:action="@{/addUser}" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" th:action="@{/addUser}" method="post"
+			enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="col-sm-2">Name</label>
 				<div class="col-sm-6">
@@ -58,6 +61,16 @@
 				<label class="col-sm-2">Zip code</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="text" name="zipCode" id="zipCode" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2">Birthdate</label>
+				<div class="col-sm-6" id="sandbox-container">
+					<div class="input-group date">
+						<input type="text" class="form-control" name="birthDate" id="birthDate"><span
+							class="input-group-addon"><i
+							class="glyphicon glyphicon-th"></i></span>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -109,5 +122,10 @@
 	<script src="/static/bootstrap4/assets/js/vendor/popper.min.js"></script>
 	<script src="/static/bootstrap4/dist/js/bootstrap.min.js"></script>
 	<script src="/static/js/updateUser.js"></script>
+
+	<script src="/static/datepicker/bootstrap-datepicker.min.js"></script>
+	<script>
+		$('#sandbox-container .input-group.date').datepicker({});
+	</script>
 </body>
 </html>

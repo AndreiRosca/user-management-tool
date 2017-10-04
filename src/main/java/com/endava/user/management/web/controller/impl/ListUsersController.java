@@ -1,8 +1,5 @@
 package com.endava.user.management.web.controller.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.endava.user.management.context.AppContext;
 import com.endava.user.management.repository.UserRepository;
 import com.endava.user.management.web.controller.AbstractController;
@@ -13,11 +10,10 @@ public class ListUsersController extends AbstractController {
 
 	@Override
 	public ModelAndView handleRequest(Request request) {
-		Map<String, Object> model = new HashMap<>();
-		model.put("greeting", "Welcome to servlets!");
 		UserRepository userRepository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
-		model.put("users", userRepository.findAll());
-		ModelAndView modelAndView = new ModelAndView("index", model);
+		ModelAndView modelAndView = new ModelAndView("index");
+		modelAndView.addVariable("greeting", "Welcome to servlets!");
+		modelAndView.addVariable("users", userRepository.findAll());
 		return modelAndView;
 	}
 }
