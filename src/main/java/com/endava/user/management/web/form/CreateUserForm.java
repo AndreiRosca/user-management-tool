@@ -6,10 +6,13 @@ import java.util.List;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.endava.user.management.web.form.validator.NonEmptyFile;
 
 public class CreateUserForm {
 
@@ -47,9 +50,10 @@ public class CreateUserForm {
 	
 	@Valid
 	@Size(min = 1)
-	private List<@Size(min = 2) String> frameworks = new ArrayList<>();
+	private List<@NotBlank String> frameworks = new ArrayList<>();
 
 	@NotNull
+	@NonEmptyFile
 	private Part cvFile;
 
 	private CreateUserForm(Builder builder) {

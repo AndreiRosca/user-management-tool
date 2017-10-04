@@ -3,6 +3,7 @@ package com.endava.user.management.web.form.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
@@ -17,9 +18,12 @@ public class FormDataValidatorTest {
 
 	CreateUserForm userForm;
 	FormDataValidator<CreateUserForm> validator;
+	Part filePart;
 	
 	@Before
 	public void setUp() {
+		filePart = mock(Part.class);
+		when(filePart.getSubmittedFileName()).thenReturn("");
 		userForm = CreateUserForm.newBuiler()
 				.setCity("Los angeles")
 				.setCountry("USA")
@@ -28,7 +32,7 @@ public class FormDataValidatorTest {
 				.setEmail("mike@gmail.com")
 				.setGender("Male")
 				.setName("Mike Smith")
-				.setCvFile(mock(Part.class))
+				.setCvFile(filePart)
 				.addFramework("Spring Core")
 				.build();
 	}
@@ -85,6 +89,14 @@ public class FormDataValidatorTest {
 		userForm.setId("134354");
 		validateUserForm();
 		assertTrue(validator.isValid());
+	}
+	
+	@Test
+	public void validatorRejectsEmptyFiles() {
+		Part cvFile = mock(Part.class);
+		userForm.setCvFile(cvFile);
+		validateUserForm();
+		assertFalse(validator.isValid());
 	}
 	
 	private void validateUserForm() {
