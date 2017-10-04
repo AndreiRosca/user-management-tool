@@ -16,6 +16,7 @@ import com.endava.user.management.web.controller.AbstractController;
 import com.endava.user.management.web.controller.ModelAndView;
 import com.endava.user.management.web.controller.Request;
 import com.endava.user.management.web.form.CreateUserForm;
+import com.endava.user.management.web.form.validator.FormDataValidator;
 import com.endava.user.management.web.util.FileUtil;
 
 public class AddUserController extends AbstractController {
@@ -38,13 +39,22 @@ public class AddUserController extends AbstractController {
 	}
 
 	private ModelAndView createNewUser(Request request) {
-		UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
 		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
-		FileUtil util = new FileUtil(request.getHttpRequest().getServletContext());
-		String cvFilePath = util.persistCvFile(userForm.getCvFile());
-		User user = repository.create(buildUserFromRequest(userForm, cvFilePath));
-		ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
-		return modelAndView;
+		if (userFormIsValid(userForm)) {
+			UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
+			FileUtil util = new FileUtil(request.getHttpRequest().getServletContext());
+			String cvFilePath = util.persistCvFile(userForm.getCvFile());
+			User user = repository.create(buildUserFromRequest(userForm, cvFilePath));
+			ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
+			return modelAndView;			
+		}
+		return new ModelAndView("redirect:/addUser");
+	}
+
+	private boolean userFormIsValid(CreateUserForm userForm) {
+		FormDataValidator<CreateUserForm> validator = new FormDataValidator<>(userForm);
+		validator.validate();
+		return validator.isValid();
 	}
 
 	private User buildUserFromRequest(CreateUserForm userForm, String cvFilePath) {

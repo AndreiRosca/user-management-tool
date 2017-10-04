@@ -27,8 +27,9 @@ public class ModelAndView {
 		return model;
 	}
 	
-	public void addVariable(String variableName, Object value) {
+	public ModelAndView addVariable(String variableName, Object value) {
 		model.put(variableName, value);
+		return this;
 	}
 	
 	public void setViewName(String viewName) {

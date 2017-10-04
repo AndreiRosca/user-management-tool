@@ -16,6 +16,7 @@ import com.endava.user.management.web.controller.AbstractController;
 import com.endava.user.management.web.controller.ModelAndView;
 import com.endava.user.management.web.controller.Request;
 import com.endava.user.management.web.form.CreateUserForm;
+import com.endava.user.management.web.form.validator.FormDataValidator;
 
 public class UpdateUserController extends AbstractController {
 	private final Map<String, Function<Request, ModelAndView>> handlers = new HashMap<>();
@@ -41,10 +42,19 @@ public class UpdateUserController extends AbstractController {
 
 	private ModelAndView handleUpdateUserFormSubmision(Request request) {
 		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
-		UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
-		User user = repository.update(buildUserFromRequest(userForm));
-		ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
-		return modelAndView;
+		if (userFormIsValid(userForm)) {
+			UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
+			User user = repository.update(buildUserFromRequest(userForm));
+			ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
+			return modelAndView;			
+		}
+		return new ModelAndView("redirect:/users/" + request.getPathParameter("userId") + "/update");
+	}
+
+	private boolean userFormIsValid(CreateUserForm userForm) {
+		FormDataValidator<CreateUserForm> validator = new FormDataValidator<>(userForm);
+		validator.validate();
+		return validator.isValid();
 	}
 
 	private User buildUserFromRequest(CreateUserForm userForm) {
