@@ -1,5 +1,5 @@
 $(document).ready(function() {
 	$(".backToUsersButton").click(function(e) {
-		location.href = "/";
+		location.href = "/welcome";
 	});
 });

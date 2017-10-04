@@ -13,6 +13,7 @@ public class User {
 	private Address address;
 	private Gender sex;
 	private Date birthDate;
+	private String cvFilePath;
 
 	private User() {
 	}
@@ -49,6 +50,20 @@ public class User {
 		return birthDate;
 	}
 
+	public String getCvFilePath() {
+		return cvFilePath;
+	}
+
+	public void setCvFilePath(String cvFilePath) {
+		this.cvFilePath = cvFilePath;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", frameworks=" + frameworks + ", address="
+				+ address + ", sex=" + sex + ", birthDate=" + birthDate + ", cvFilePath=" + cvFilePath + "]";
+	}
+
 	public static UserBuilder newBuilder() {
 		return new UserBuilder();
 	}
@@ -80,9 +95,14 @@ public class User {
 			user.birthDate = birthDate;
 			return this;
 		}
-		
+
 		public UserBuilder addFramework(Framework framework) {
 			user.frameworks.add(framework);
+			return this;
+		}
+
+		public UserBuilder setCvFilePath(String cvFilePath) {
+			user.cvFilePath = cvFilePath;
 			return this;
 		}
 

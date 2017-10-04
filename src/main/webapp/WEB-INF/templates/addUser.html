@@ -23,7 +23,7 @@
 			<h1>Add user</h1>
 
 		</div>
-		<form class="form-horizontal" action="/addUser" method="post">
+		<form class="form-horizontal" action="/addUser" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="col-sm-2">Name</label>
 				<div class="col-sm-6">
@@ -63,7 +63,7 @@
 			<div class="form-group">
 				<label class="col-sm-2">Gender</label>
 				<div class="col-sm-3">
-					<select name="sex" id="sex" class="form-control">
+					<select name="gender" id="gender" class="form-control">
 						<option th:each="gender : ${genders}" th:text="${gender}">Female</option>
 					</select>
 				</div>
