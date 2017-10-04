@@ -19,7 +19,9 @@ function setUpAddFrameworkButtonHandler() {
 				<div class="col-sm-4 input-group"
 				id="framework_${newFrameworkIndex}">
 				<input class="form-control" type="text"
-					name="frameworks[${newFrameworkIndex}]" /> <span
+					name="frameworks[${newFrameworkIndex}]"
+					required=""
+					data-parsley-errors-container="#framework_${newFrameworkIndex}_Errors" /> <span
 					class="input-group-btn">
 					<button type="button"
 						class="btn btn-default removeFrameworkButton"
@@ -31,6 +33,7 @@ function setUpAddFrameworkButtonHandler() {
 		`);
 		newFrameworkElement.click(removeFrameworkButtonHandler);
 		$("#frameworksContainer").append(newFrameworkElement);
+		$("#frameworksContainer").append(`<div id="framework_${newFrameworkIndex}_Errors"></div>`);
 	});
 }
 

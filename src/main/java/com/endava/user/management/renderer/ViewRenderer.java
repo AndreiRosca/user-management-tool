@@ -31,16 +31,22 @@ public class ViewRenderer {
 	}
 
 	public void tryRender() throws IOException {
-		if (modelAndView.hasView()) {
-			if (viewNameIsRedirect())
-				redirect();
-			else {
-				TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-				WebContext context = new WebContext(request, response, request.getServletContext());
-				modelAndView.getModel().forEach((key, value) -> context.setVariable(key, value));
-				engine.process(modelAndView.getViewName(), context, response.getWriter());
-			}
-		}
+		if (modelAndView.hasView())
+			renderView();
+	}
+
+	private void renderView() throws IOException {
+		if (viewNameIsRedirect())
+			redirect();
+		else
+			processTemplateAndSendToClient();
+	}
+
+	private void processTemplateAndSendToClient() throws IOException {
+		TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+		WebContext context = new WebContext(request, response, request.getServletContext());
+		modelAndView.getModel().forEach((key, value) -> context.setVariable(key, value));
+		engine.process(modelAndView.getViewName(), context, response.getWriter());
 	}
 
 	private void redirect() {

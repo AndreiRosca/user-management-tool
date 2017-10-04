@@ -11,8 +11,15 @@
 	rel="stylesheet" type="text/css">
 <link href="/static/css/starter-template.css" rel="stylesheet"
 	type="text/css">
-<link href="/static/datepicker/bootstrap-datepicker3.standalone.min.css" rel="stylesheet"
+<link href="/static/datepicker/bootstrap-datepicker3.standalone.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- Parsley js validation -->
+<link href="/static/js/parsley/parsley.css" rel="stylesheet"
 	type="text/css">
+<link href="/static/js/parsley/docs.css" rel="stylesheet"
+	type="text/css">
+
 </head>
 
 <body>
@@ -25,52 +32,72 @@
 			<h1>Add user</h1>
 
 		</div>
+		<div class="bs-callout bs-callout-warning hidden">
+			<h4>Oh snap!</h4>
+			<p>This form seems to be invalid :(</p>
+		</div>
+
+<!-- 		<div class="bs-callout bs-callout-info hidden">
+			<h4>Yay!</h4>
+			<p>Everything seems to be ok :)</p>
+		</div> -->
+
 		<form class="form-horizontal" th:action="@{/addUser}" method="post"
-			enctype="multipart/form-data">
+			enctype="multipart/form-data" id="addUserForm"
+			data-parsley-validate="">
 			<div class="form-group">
 				<label class="col-sm-2">Name</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="text" name="name" id="name" />
+					<input class="form-control" type="text" name="name" id="name"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Email</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="email" name="email" id="email" />
+					<input class="form-control" type="email" name="email" id="email"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Country</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="text" name="country" id="country" />
+					<input class="form-control" type="text" name="country" id="country"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">City</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="text" name="city" id="city" />
+					<input class="form-control" type="text" name="city" id="city"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">State</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="text" name="state" id="state" />
+					<input class="form-control" type="text" name="state" id="state"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Zip code</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="text" name="zipCode" id="zipCode" />
+					<input class="form-control" type="text" name="zipCode" id="zipCode"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Birthdate</label>
 				<div class="col-sm-6" id="sandbox-container">
 					<div class="input-group date">
-						<input type="text" class="form-control" name="birthDate" id="birthDate"><span
+						<input type="text" class="form-control" name="birthDate"
+							id="birthDate" required="" data-parsley-errors-container="#birthDateErrors"><span
 							class="input-group-addon"><i
 							class="glyphicon glyphicon-th"></i></span>
+					<br/>
 					</div>
+					<div id="birthDateErrors"></div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -85,15 +112,17 @@
 				<label class="col-sm-2">Frameworks</label>
 				<div id="frameworksContainer">
 					<div class="col-sm-4 input-group" id="framework_0">
-						<input class="form-control" type="text" name="frameworks[0]" /> <span
-							class="input-group-btn">
+						<input class="form-control" type="text" name="frameworks[0]"
+							required="" data-parsley-errors-container="#framework_0_Errors" /> <span class="input-group-btn">
 							<button type="button"
 								class="btn btn-default removeFrameworkButton"
 								data-framework-index="0">
 								<span class="glyphicon glyphicon-remove"></span> Remove
 							</button>
 						</span>
+					<br/>
 					</div>
+					<div id="framework_0_Errors"></div>
 				</div>
 				<br />
 				<div class="col-sm-6" style="text-align: center">
@@ -105,7 +134,8 @@
 			<div class="form-group">
 				<label class="col-sm-2">CV file</label>
 				<div class="col-sm-6">
-					<input class="form-control" type="file" name="cvFile" id="cvFile" />
+					<input class="form-control" type="file" name="cvFile" id="cvFile"
+						required="" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -126,6 +156,20 @@
 	<script src="/static/datepicker/bootstrap-datepicker.min.js"></script>
 	<script>
 		$('#sandbox-container .input-group.date').datepicker({});
+	</script>
+
+	<!-- Parsley js validation -->
+	<script src="/static/js/parsley/parsley.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#addUserForm').parsley().on('field:validated', function() {
+				var ok = $('.parsley-error').length === 0;
+				//$('.bs-callout-info').toggleClass('hidden', !ok);
+				$('.bs-callout-warning').toggleClass('hidden', ok);
+			}).on('form:submit', function() {
+				return true;
+			});
+		});
 	</script>
 </body>
 </html>
