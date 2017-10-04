@@ -31,22 +31,25 @@ public class UpdateUserController extends AbstractController {
 	public ModelAndView handleRequest(Request request) {
 		return handlers.get(request.getHttpMethod()).apply(request);
 	}
+	
+	private UserRepository getUserRepository(Request request) {
+		return (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
+	}
 
 	private ModelAndView showUpdateUserForm(Request request) {
-		UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
-		Map<String, Object> model = new HashMap<>();
-		model.put("user", repository.findById(Long.valueOf(request.getPathParameter("userId"))));
-		model.put("genders", Gender.values());
-		return new ModelAndView("updateUser", model);
+		UserRepository repository = getUserRepository(request);
+		long userId = Long.valueOf(request.getPathParameter("userId"));
+		return new ModelAndView("updateUser")
+				.addVariable("users", repository.findById(userId))
+				.addVariable("genders", Gender.values());
 	}
 
 	private ModelAndView handleUpdateUserFormSubmision(Request request) {
 		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
 		if (userFormIsValid(userForm)) {
-			UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
+			UserRepository repository = getUserRepository(request);
 			User user = repository.update(buildUserFromRequest(userForm));
-			ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
-			return modelAndView;			
+			return new ModelAndView("redirect:/users/" + user.getId());
 		}
 		return new ModelAndView("redirect:/users/" + request.getPathParameter("userId") + "/update");
 	}
@@ -83,7 +86,7 @@ public class UpdateUserController extends AbstractController {
 
 	private ModelAndView deleteUser(Request request) {
 		long userId = Long.valueOf(request.getPathParameter("userId"));
-		UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
+		UserRepository repository = getUserRepository(request);
 		repository.delete(userId);
 		return new ModelAndView();
 	}
