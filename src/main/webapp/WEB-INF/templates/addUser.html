@@ -11,6 +11,8 @@
 	rel="stylesheet" type="text/css">
 <link href="/static/css/starter-template.css" rel="stylesheet"
 	type="text/css">
+	
+<!-- Datepicker styles -->
 <link href="/static/datepicker/bootstrap-datepicker3.standalone.min.css"
 	rel="stylesheet" type="text/css">
 
@@ -36,11 +38,6 @@
 			<h4>Oh snap!</h4>
 			<p>This form seems to be invalid :(</p>
 		</div>
-
-<!-- 		<div class="bs-callout bs-callout-info hidden">
-			<h4>Yay!</h4>
-			<p>Everything seems to be ok :)</p>
-		</div> -->
 
 		<form class="form-horizontal" th:action="@{/addUser}" method="post"
 			enctype="multipart/form-data" id="addUserForm"
@@ -151,8 +148,10 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="/static/bootstrap4/assets/js/vendor/popper.min.js"></script>
 	<script src="/static/bootstrap4/dist/js/bootstrap.min.js"></script>
+	
 	<script src="/static/js/updateUser.js"></script>
 
+	<!-- Datepicker -->
 	<script src="/static/datepicker/bootstrap-datepicker.min.js"></script>
 	<script>
 		$('#sandbox-container .input-group.date').datepicker({});

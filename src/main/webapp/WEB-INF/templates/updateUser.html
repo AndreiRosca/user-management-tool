@@ -11,6 +11,17 @@
 	rel="stylesheet" type="text/css">
 <link href="/static/css/starter-template.css" rel="stylesheet"
 	type="text/css">
+
+<!-- Datepicker styles -->
+<link href="/static/datepicker/bootstrap-datepicker3.standalone.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- Parsley js validation -->
+<link href="/static/js/parsley/parsley.css" rel="stylesheet"
+	type="text/css">
+<link href="/static/js/parsley/docs.css" rel="stylesheet"
+	type="text/css">
+
 </head>
 
 <body>
@@ -23,49 +34,56 @@
 			<h1>Query user</h1>
 
 		</div>
-		<form class="form-horizontal" th:object="${user}" method="post" enctype="multipart/form-data">
+
+		<div class="bs-callout bs-callout-warning hidden">
+			<h4>Oh snap!</h4>
+			<p>This form seems to be invalid :(</p>
+		</div>
+
+		<form class="form-horizontal" th:object="${user}" method="post"
+			enctype="multipart/form-data" id="updateUserForm">
 			<input type="hidden" name="id" th:value="${user.id}" />
-		
+
 			<div class="form-group">
 				<label class="col-sm-2">Name</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="text" name="name" id="name"
-						th:value="*{name}" />
+						th:value="*{name}" required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Email</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="email" name="email" id="email"
-						th:value="*{email}" />
+						th:value="*{email}" required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Country</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="text" name="country" id="country"
-						th:value="*{address.country}" />
+						th:value="*{address.country}" required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">City</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="text" name="city" id="city"
-						th:value="*{address.city}" />
+						th:value="*{address.city}" required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">State</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="text" name="state" id="state"
-						th:value="*{address.state}" />
+						th:value="*{address.state}" required="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2">Zip code</label>
 				<div class="col-sm-6">
 					<input class="form-control" type="text" name="zipCode" id="zipCode"
-						th:value="*{address.zipCode}" />
+						th:value="*{address.zipCode}" required="" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -83,7 +101,8 @@
 						th:each="framework, stat : *{frameworks}"
 						th:attr="id=${'framework_' + stat.index}">
 						<input class="form-control" type="text" th:value="${framework}"
-							th:attr="name=${'frameworks[' + stat.index + ']'}" /> <span
+							th:attr="name=${'frameworks[' + stat.index + ']'}" required=""
+							data-parsley-errors-container="#framework_0_Errors" /> <span
 							class="input-group-btn">
 							<button type="button"
 								class="btn btn-default removeFrameworkButton"
@@ -91,7 +110,9 @@
 								<span class="glyphicon glyphicon-remove"></span> Remove
 							</button>
 						</span>
+						<br/>
 					</div>
+					<div id="framework_0_Errors"></div>
 				</div>
 				<br />
 				<div class="col-sm-6" style="text-align: center">
@@ -115,5 +136,20 @@
 	<script src="/static/bootstrap4/assets/js/vendor/popper.min.js"></script>
 	<script src="/static/bootstrap4/dist/js/bootstrap.min.js"></script>
 	<script src="/static/js/updateUser.js"></script>
+	
+		<!-- Parsley js validation -->
+	<script src="/static/js/parsley/parsley.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#updateUserForm').parsley().on('field:validated', function() {
+				var ok = $('.parsley-error').length === 0;
+				//$('.bs-callout-info').toggleClass('hidden', !ok);
+				$('.bs-callout-warning').toggleClass('hidden', ok);
+			}).on('form:submit', function() {
+				return true;
+			});
+		});
+	</script>
+	
 </body>
 </html>
