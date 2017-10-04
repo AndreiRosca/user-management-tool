@@ -1,11 +1,14 @@
 package com.endava.user.management.web.controller.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.endava.user.management.context.AppContext;
 import com.endava.user.management.domain.Address;
+import com.endava.user.management.domain.Framework;
 import com.endava.user.management.domain.Gender;
 import com.endava.user.management.domain.User;
 import com.endava.user.management.repository.UserRepository;
@@ -28,18 +31,20 @@ public class AddUserController extends AbstractController {
 		return handlers.get(request.getHttpMethod()).apply(request);
 	}
 
-	public ModelAndView showAddUserForm(Request request) {
+	private ModelAndView showAddUserForm(Request request) {
 		ModelAndView modelAndView = new ModelAndView("addUser");
 		modelAndView.addVariable("genders", Gender.values());
 		return modelAndView;
 	}
 
-	public ModelAndView createNewUser(Request request) {
+	private ModelAndView createNewUser(Request request) {
+		System.out.println(request.getHttpRequest().getParameterMap());
 		UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
 		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
 		FileUtil util = new FileUtil(request.getHttpRequest().getServletContext());
 		String cvFilePath = util.persistCvFile(userForm.getCvFile());
 		User user = repository.create(buildUserFromRequest(userForm, cvFilePath));
+		System.out.println(userForm);
 		ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
 		return modelAndView;
 	}
@@ -50,6 +55,7 @@ public class AddUserController extends AbstractController {
 				.setEmail(userForm.getEmail())
 				.setSex(Gender.valueOf(userForm.getGender().toUpperCase()))
 				.setCvFilePath(cvFilePath)
+				.setFrameworks(getFormFrameworks(userForm))
 				.setAddress(Address.newBuilder()
 						.setCountry(userForm.getCountry())
 						.setCity(userForm.getCity())
@@ -58,5 +64,12 @@ public class AddUserController extends AbstractController {
 						.build())
 				.build();
 		return user;
+	}
+
+	private List<Framework> getFormFrameworks(CreateUserForm userForm) {
+		return userForm.getFrameworks()
+				.stream()
+				.map(Framework::new)
+				.collect(Collectors.toList());
 	}
 }

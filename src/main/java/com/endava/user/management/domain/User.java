@@ -105,6 +105,11 @@ public class User {
 			user.cvFilePath = cvFilePath;
 			return this;
 		}
+		
+		public UserBuilder setFrameworks(List<Framework> frameworks) {
+			user.frameworks = frameworks;
+			return this;
+		}
 
 		public User build() {
 			return user;

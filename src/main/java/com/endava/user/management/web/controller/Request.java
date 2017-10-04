@@ -2,6 +2,7 @@ package com.endava.user.management.web.controller;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,10 +116,39 @@ public class Request {
 			String[] paramValues = parameterMap.get(fieldName);
 			if (paramValues != null) {
 				String value = paramValues[0];
-				setFieldValue(field, form, value);				
+				setFieldValue(field, form, value);
+			} else if (fieldIsCollection(field, form)) {
+				populateCollectionField(field, form, parameterMap);
 			} else if (partsMap.containsKey(fieldName)) {
 				setFieldValue(field, form, partsMap.get(fieldName));
 			}
+		}
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void populateCollectionField(Field field, Object target, Map<String, String[]> parameterMap) {
+		try {
+			field.setAccessible(true);
+			Collection collection = (Collection) field.get(target);
+			String fieldName = field.getName();
+			for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+				String key = entry.getKey();
+				if (key.startsWith(fieldName)) {
+					String firstValue = entry.getValue()[0];
+					collection.add(firstValue);
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private boolean fieldIsCollection(Field field, Object target) {
+		try {
+			field.setAccessible(true);
+			return Collection.class.isInstance(field.get(target));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
