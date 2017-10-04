@@ -1,10 +1,15 @@
 package com.endava.user.management.web.controller.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.Part;
 
 import com.endava.user.management.context.AppContext;
 import com.endava.user.management.domain.Address;
@@ -68,6 +73,7 @@ public class AddUserController extends AbstractController {
 				.setEmail(userForm.getEmail())
 				.setSex(Gender.valueOf(userForm.getGender().toUpperCase()))
 				.setCvFilePath(cvFilePath)
+				.setCvFileContent(getCvFileContent(userForm.getCvFile()))
 				.setFrameworks(getFormFrameworks(userForm))
 				.setAddress(Address.newBuilder()
 						.setCountry(userForm.getCountry())
@@ -77,6 +83,24 @@ public class AddUserController extends AbstractController {
 						.build())
 				.build();
 		return user;
+	}
+
+	private byte[] tryGetCvFileContent(Part filePart) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		InputStream in = filePart.getInputStream();
+		byte[] buffer = new byte[4096];
+		int bytesRead;
+		while ((bytesRead = in.read(buffer)) != -1)
+			out.write(buffer, 0, bytesRead);
+		return out.toByteArray();
+	}
+
+	private byte[] getCvFileContent(Part filePart) {
+		try {
+			return tryGetCvFileContent(filePart);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private List<Framework> getFormFrameworks(CreateUserForm userForm) {

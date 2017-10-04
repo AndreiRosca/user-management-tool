@@ -15,10 +15,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -42,6 +45,10 @@ public class User {
 	
 	@Column(name = "cv_file_path")
 	private String cvFilePath;
+
+	@Lob
+	@Column(name = "cv_file_content")
+	private byte[] cvFileContent;
 
 	protected User() {
 	}
@@ -80,6 +87,14 @@ public class User {
 
 	public void setCvFilePath(String cvFilePath) {
 		this.cvFilePath = cvFilePath;
+	}
+
+	public byte[] getCvFileContent() {
+		return cvFileContent;
+	}
+
+	public void setCvFileContent(byte[] cfFileContent) {
+		this.cvFileContent = cfFileContent;
 	}
 
 	@Override
@@ -132,6 +147,11 @@ public class User {
 
 		public UserBuilder setCvFilePath(String cvFilePath) {
 			user.cvFilePath = cvFilePath;
+			return this;
+		}
+		
+		public UserBuilder setCvFileContent(byte[] cvFileContent) {
+			user.cvFileContent = cvFileContent;
 			return this;
 		}
 		
