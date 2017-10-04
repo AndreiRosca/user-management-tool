@@ -7,6 +7,7 @@ import javax.servlet.http.Part;
 
 public class CreateUserForm {
 
+	private String id;
 	private String name;
 	private String email;
 	private String country;
@@ -18,6 +19,14 @@ public class CreateUserForm {
 	private Part cvFile;
 	
 	public CreateUserForm() {
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {

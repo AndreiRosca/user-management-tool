@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	setUpRemoveFrameworkButtonHandler();
-	setUpUpdateUserButtonHandler();
 	setUpAddFrameworkButtonHandler();
 });
 
@@ -11,12 +10,6 @@ function setUpRemoveFrameworkButtonHandler() {
 function removeFrameworkButtonHandler(e) {
 	const frameworkIndex = getFrameworkIndex(e);
 	$(`#framework_${frameworkIndex}`).remove();	
-}
-
-function setUpUpdateUserButtonHandler() {
-	$(".updateUserButton").click(function(e) {
-		console.log("updating user");
-	});
 }
 
 function setUpAddFrameworkButtonHandler() {

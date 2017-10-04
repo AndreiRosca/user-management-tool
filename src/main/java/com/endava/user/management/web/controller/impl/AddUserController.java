@@ -38,13 +38,11 @@ public class AddUserController extends AbstractController {
 	}
 
 	private ModelAndView createNewUser(Request request) {
-		System.out.println(request.getHttpRequest().getParameterMap());
 		UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
 		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
 		FileUtil util = new FileUtil(request.getHttpRequest().getServletContext());
 		String cvFilePath = util.persistCvFile(userForm.getCvFile());
 		User user = repository.create(buildUserFromRequest(userForm, cvFilePath));
-		System.out.println(userForm);
 		ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
 		return modelAndView;
 	}

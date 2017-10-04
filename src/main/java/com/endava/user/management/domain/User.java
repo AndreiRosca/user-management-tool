@@ -80,6 +80,11 @@ public class User {
 			user.email = email;
 			return this;
 		}
+		
+		public UserBuilder setId(Long id) {
+			user.id = id;
+			return this;
+		}
 
 		public UserBuilder setAddress(Address address) {
 			user.address = address;
