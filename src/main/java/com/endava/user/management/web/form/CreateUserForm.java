@@ -4,42 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Part;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class CreateUserForm {
 
-	private String id;
-	
-	@NotNull
+	@Size(min = 0)
+	@Pattern(regexp = "\\d*")
+	private String id = "";
+
+	@NotEmpty
 	@Size(min = 2)
 	private String name;
 	
-	@NotNull
+	@NotEmpty
 	@Email
 	private String email;
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 3)
 	private String country;
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 2)
 	private String city;
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 2)
 	private String state;
-	
-	@NotNull
+
+	@NotEmpty
 	@Size(min = 2)
 	private String zipCode;
-	
-	@NotNull
-	@Size(min = 3)
+
+	@NotEmpty
+	@Pattern(regexp = "(Fem|M)ale")
 	private String gender;
-	private List<String> frameworks = new ArrayList<>();
+	
+	@Valid
+	@Size(min = 1)
+	private List<@Size(min = 2) String> frameworks = new ArrayList<>();
+
+	@NotNull
 	private Part cvFile;
 
 	private CreateUserForm(Builder builder) {
@@ -137,6 +147,10 @@ public class CreateUserForm {
 	public void setCvFile(Part cvFile) {
 		this.cvFile = cvFile;
 	}
+	
+	public void addFramework(String framework) {
+		frameworks.add(framework);
+	}
 
 	@Override
 	public String toString() {
@@ -158,7 +172,7 @@ public class CreateUserForm {
 		private String state;
 		private String zipCode;
 		private String gender;
-		private List<String> frameworks;
+		private List<String> frameworks = new ArrayList<>();
 		private Part cvFile;
 
 		private Builder() {
@@ -217,7 +231,10 @@ public class CreateUserForm {
 		public CreateUserForm build() {
 			return new CreateUserForm(this);
 		}
+
+		public Builder addFramework(String framework) {
+			frameworks.add(framework);
+			return this;
+		}
 	}
-	
-	
 }
