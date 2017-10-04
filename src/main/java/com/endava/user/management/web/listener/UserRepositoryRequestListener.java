@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebListener;
 
 import com.endava.user.management.context.AppContext;
 import com.endava.user.management.repository.JpaUserRepository;
+import com.endava.user.management.service.UserServiceImpl;
 
 @WebListener
 public class UserRepositoryRequestListener implements ServletRequestListener {
@@ -24,7 +25,13 @@ public class UserRepositoryRequestListener implements ServletRequestListener {
 		ServletRequest request = sre.getServletRequest();
 		EntityManager em = createEntityManagerAndStartTransaction(request.getServletContext());
 		entityManagers.put(request, em);
+		setAttributes(request, em);
+	}
+
+	private void setAttributes(ServletRequest request, EntityManager em) {
+		JpaUserRepository repository = new JpaUserRepository(em);
 		request.setAttribute(AppContext.Repository, new JpaUserRepository(em));
+		request.setAttribute(AppContext.Service, new UserServiceImpl(repository));
 	}
 
 	private EntityManager createEntityManagerAndStartTransaction(ServletContext servletContext) {

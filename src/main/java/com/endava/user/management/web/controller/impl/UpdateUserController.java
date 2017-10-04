@@ -1,17 +1,13 @@
 package com.endava.user.management.web.controller.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import com.endava.user.management.context.AppContext;
-import com.endava.user.management.domain.Address;
-import com.endava.user.management.domain.Framework;
 import com.endava.user.management.domain.Gender;
 import com.endava.user.management.domain.User;
-import com.endava.user.management.repository.UserRepository;
+import com.endava.user.management.service.UserService;
 import com.endava.user.management.web.controller.AbstractController;
 import com.endava.user.management.web.controller.ModelAndView;
 import com.endava.user.management.web.controller.Request;
@@ -31,27 +27,30 @@ public class UpdateUserController extends AbstractController {
 	public ModelAndView handleRequest(Request request) {
 		return handlers.get(request.getHttpMethod()).apply(request);
 	}
-	
-	private UserRepository getUserRepository(Request request) {
-		return (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
+
+	private UserService getUserService(Request request) {
+		return (UserService) request.getHttpRequest().getAttribute(AppContext.Service);
 	}
 
 	private ModelAndView showUpdateUserForm(Request request) {
-		UserRepository repository = getUserRepository(request);
+		UserService service = getUserService(request);
 		long userId = Long.valueOf(request.getPathParameter("userId"));
 		return new ModelAndView("updateUser")
-				.addVariable("user", repository.findById(userId))
+				.addVariable("user", service.findById(userId))
 				.addVariable("genders", Gender.values());
 	}
 
 	private ModelAndView handleUpdateUserFormSubmision(Request request) {
 		UpdateUserForm userForm = request.getRequestParametersAs(UpdateUserForm.class);
-		if (userFormIsValid(userForm)) {
-			UserRepository repository = getUserRepository(request);
-			User user = repository.update(buildUserFromRequest(userForm));
-			return new ModelAndView("redirect:/users/" + user.getId());
-		}
+		if (userFormIsValid(userForm))
+			return updateUserAndRedirectToUserPage(request, userForm);
 		return new ModelAndView("redirect:/users/" + request.getPathParameter("userId") + "/update");
+	}
+
+	private ModelAndView updateUserAndRedirectToUserPage(Request request, UpdateUserForm userForm) {
+		UserService service = getUserService(request);
+		User user = service.update(userForm);
+		return new ModelAndView("redirect:/users/" + user.getId());
 	}
 
 	private boolean userFormIsValid(UpdateUserForm userForm) {
@@ -60,34 +59,10 @@ public class UpdateUserController extends AbstractController {
 		return validator.isValid();
 	}
 
-	private User buildUserFromRequest(UpdateUserForm userForm) {
-		User user = User.newBuilder()
-				.setId(Long.valueOf(userForm.getId()))
-				.setName(userForm.getName())
-				.setEmail(userForm.getEmail())
-				.setSex(Gender.valueOf(userForm.getGender().toUpperCase()))
-				.setFrameworks(getFormFrameworks(userForm))
-				.setAddress(Address.newBuilder()
-						.setCountry(userForm.getCountry())
-						.setCity(userForm.getCity())
-						.setState(userForm.getState())
-						.setZipCode(userForm.getZipCode())
-						.build())
-				.build();
-		return user;
-	}
-
-	private List<Framework> getFormFrameworks(UpdateUserForm userForm) {
-		return userForm.getFrameworks()
-				.stream()
-				.map(Framework::new)
-				.collect(Collectors.toList());
-	}
-
 	private ModelAndView deleteUser(Request request) {
+		UserService service = getUserService(request);
 		long userId = Long.valueOf(request.getPathParameter("userId"));
-		UserRepository repository = getUserRepository(request);
-		repository.delete(userId);
+		service.delete(userId);
 		return new ModelAndView();
 	}
 }

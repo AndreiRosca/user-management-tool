@@ -32,6 +32,7 @@ public class ThymeleafConfigServletContextListener implements ServletContextList
 		resolver.setPrefix("/WEB-INF/templates/");
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode(TemplateMode.HTML);
+		resolver.setCacheable(false);
 		return resolver;
 	}
 
