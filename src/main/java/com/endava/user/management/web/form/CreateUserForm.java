@@ -4,19 +4,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Part;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class CreateUserForm {
 
 	private String id;
+	
+	@NotNull
+	@Size(min = 2)
 	private String name;
+	
+	@NotNull
+	@Email
 	private String email;
+	
+	@NotNull
+	@Size(min = 3)
 	private String country;
+	
+	@NotNull
+	@Size(min = 2)
 	private String city;
+	
+	@NotNull
+	@Size(min = 2)
 	private String state;
+	
+	@NotNull
+	@Size(min = 2)
 	private String zipCode;
+	
+	@NotNull
+	@Size(min = 3)
 	private String gender;
 	private List<String> frameworks = new ArrayList<>();
 	private Part cvFile;
+
+	private CreateUserForm(Builder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+		this.email = builder.email;
+		this.country = builder.country;
+		this.city = builder.city;
+		this.state = builder.state;
+		this.zipCode = builder.zipCode;
+		this.gender = builder.gender;
+		this.frameworks = builder.frameworks;
+		this.cvFile = builder.cvFile;
+	}
 	
 	public CreateUserForm() {
 	}
@@ -107,4 +144,80 @@ public class CreateUserForm {
 				+ state + ", zipCode=" + zipCode + ", gender=" + gender + ", frameworks=" + frameworks + ", cvFile=" + cvFile
 				+ "]";
 	}
+
+	public static Builder newBuiler() {
+		return new Builder();
+	}
+
+	public static final class Builder {
+		private String id;
+		private String name;
+		private String email;
+		private String country;
+		private String city;
+		private String state;
+		private String zipCode;
+		private String gender;
+		private List<String> frameworks;
+		private Part cvFile;
+
+		private Builder() {
+		}
+
+		public Builder setId(String id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public Builder setEmail(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public Builder setCountry(String country) {
+			this.country = country;
+			return this;
+		}
+
+		public Builder setCity(String city) {
+			this.city = city;
+			return this;
+		}
+
+		public Builder setState(String state) {
+			this.state = state;
+			return this;
+		}
+
+		public Builder setZipCode(String zipCode) {
+			this.zipCode = zipCode;
+			return this;
+		}
+
+		public Builder setGender(String gender) {
+			this.gender = gender;
+			return this;
+		}
+
+		public Builder setFrameworks(List<String> frameworks) {
+			this.frameworks = frameworks;
+			return this;
+		}
+
+		public Builder setCvFile(Part cvFile) {
+			this.cvFile = cvFile;
+			return this;
+		}
+
+		public CreateUserForm build() {
+			return new CreateUserForm(this);
+		}
+	}
+	
+	
 }
