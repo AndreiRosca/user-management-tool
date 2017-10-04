@@ -11,7 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
-@WebFilter(urlPatterns = { "/static/*", "*.ico" })
+@WebFilter(urlPatterns = { "/static/*", "*.ico", "/resources/*" })
 public class StaticContentServingFilter implements Filter {
 
 	private RequestDispatcher defaultDispatcher;

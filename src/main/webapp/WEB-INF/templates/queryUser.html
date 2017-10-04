@@ -54,6 +54,10 @@
 					<td th:text="${user.frameworks}">Spring MVC</td>
 				</tr>
 				<tr>
+					<th scope="row">CV file</th>
+					<td><a th:href="@{'/resources/files/cv/' + ${user.cvFilePath}}">View CV file</a></td>
+				</tr>
+				<tr>
 					<td colspan="2">
 						<div style="text-align: center">
 							<button type="button" class="btn btn-primary backToUsersButton">Back
