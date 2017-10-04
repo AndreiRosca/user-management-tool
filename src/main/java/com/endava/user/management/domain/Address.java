@@ -1,10 +1,16 @@
 package com.endava.user.management.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Address {
 
 	private String country;
 	private String state;
 	private String city;
+	
+	@Column(name = "zip_code")
 	private String zipCode;
 
 	private Address(Builder builder) {
@@ -14,7 +20,7 @@ public class Address {
 		this.zipCode = builder.zipCode;
 	}
 	
-	private Address() {
+	protected Address() {
 	}
 
 	public String getCountry() {

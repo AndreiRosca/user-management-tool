@@ -4,26 +4,50 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
 public class User {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String name;
 	private String email;
+	
+	@ElementCollection
+	@CollectionTable(name = "user_frameworks", joinColumns = @JoinColumn(name = "user_id"))
 	private List<Framework> frameworks = new ArrayList<>();
+	
+	@Embedded
 	private Address address;
+	
+	@Enumerated(EnumType.STRING)
 	private Gender sex;
+	
+	@Temporal(TemporalType.DATE)
 	private Date birthDate;
+	
+	@Column(name = "cv_file_path")
 	private String cvFilePath;
 
-	private User() {
+	protected User() {
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {

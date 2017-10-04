@@ -42,13 +42,18 @@ public class AddUserController extends AbstractController {
 		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
 		if (userFormIsValid(userForm)) {
 			UserRepository repository = (UserRepository) request.getHttpRequest().getAttribute(AppContext.Repository);
-			FileUtil util = new FileUtil(request.getHttpRequest().getServletContext());
-			String cvFilePath = util.persistCvFile(userForm.getCvFile());
+			String cvFilePath = persistCvFile(request, userForm);
 			User user = repository.create(buildUserFromRequest(userForm, cvFilePath));
 			ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
 			return modelAndView;			
 		}
 		return new ModelAndView("redirect:/addUser");
+	}
+
+	private String persistCvFile(Request request, CreateUserForm userForm) {
+		FileUtil util = new FileUtil(request.getHttpRequest().getServletContext());
+		String cvFilePath = util.persistCvFile(userForm.getCvFile());
+		return cvFilePath;
 	}
 
 	private boolean userFormIsValid(CreateUserForm userForm) {

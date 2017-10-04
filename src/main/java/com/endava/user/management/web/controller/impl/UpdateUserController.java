@@ -15,7 +15,7 @@ import com.endava.user.management.repository.UserRepository;
 import com.endava.user.management.web.controller.AbstractController;
 import com.endava.user.management.web.controller.ModelAndView;
 import com.endava.user.management.web.controller.Request;
-import com.endava.user.management.web.form.CreateUserForm;
+import com.endava.user.management.web.form.UpdateUserForm;
 import com.endava.user.management.web.form.validator.FormDataValidator;
 
 public class UpdateUserController extends AbstractController {
@@ -40,12 +40,12 @@ public class UpdateUserController extends AbstractController {
 		UserRepository repository = getUserRepository(request);
 		long userId = Long.valueOf(request.getPathParameter("userId"));
 		return new ModelAndView("updateUser")
-				.addVariable("users", repository.findById(userId))
+				.addVariable("user", repository.findById(userId))
 				.addVariable("genders", Gender.values());
 	}
 
 	private ModelAndView handleUpdateUserFormSubmision(Request request) {
-		CreateUserForm userForm = request.getRequestParametersAs(CreateUserForm.class);
+		UpdateUserForm userForm = request.getRequestParametersAs(UpdateUserForm.class);
 		if (userFormIsValid(userForm)) {
 			UserRepository repository = getUserRepository(request);
 			User user = repository.update(buildUserFromRequest(userForm));
@@ -54,13 +54,13 @@ public class UpdateUserController extends AbstractController {
 		return new ModelAndView("redirect:/users/" + request.getPathParameter("userId") + "/update");
 	}
 
-	private boolean userFormIsValid(CreateUserForm userForm) {
-		FormDataValidator<CreateUserForm> validator = new FormDataValidator<>(userForm);
+	private boolean userFormIsValid(UpdateUserForm userForm) {
+		FormDataValidator<UpdateUserForm> validator = new FormDataValidator<>(userForm);
 		validator.validate();
 		return validator.isValid();
 	}
 
-	private User buildUserFromRequest(CreateUserForm userForm) {
+	private User buildUserFromRequest(UpdateUserForm userForm) {
 		User user = User.newBuilder()
 				.setId(Long.valueOf(userForm.getId()))
 				.setName(userForm.getName())
@@ -77,7 +77,7 @@ public class UpdateUserController extends AbstractController {
 		return user;
 	}
 
-	private List<Framework> getFormFrameworks(CreateUserForm userForm) {
+	private List<Framework> getFormFrameworks(UpdateUserForm userForm) {
 		return userForm.getFrameworks()
 				.stream()
 				.map(Framework::new)
