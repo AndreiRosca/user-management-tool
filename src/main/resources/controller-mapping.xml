@@ -17,6 +17,9 @@
 		<mapping method="get">
 			<url-pattern>/welcome</url-pattern>
 		</mapping>
+		<mapping method="get">
+			<url-pattern>/</url-pattern>
+		</mapping>
 	</controller>
 	<controller
 		class="com.endava.user.management.web.controller.impl.UserDetailsController">
