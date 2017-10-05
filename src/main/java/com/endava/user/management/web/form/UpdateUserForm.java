@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -19,19 +20,19 @@ public class UpdateUserForm {
 	@NotEmpty
 	@Size(min = 2)
 	private String name;
-	
+
 	@NotEmpty
 	@Email
 	private String email;
-	
+
 	@NotEmpty
 	@Size(min = 3)
 	private String country;
-	
+
 	@NotEmpty
 	@Size(min = 2)
 	private String city;
-	
+
 	@NotEmpty
 	@Size(min = 2)
 	private String state;
@@ -43,10 +44,14 @@ public class UpdateUserForm {
 	@NotEmpty
 	@Pattern(regexp = "(Fem|M)ale")
 	private String gender;
-	
+
 	@Valid
 	@Size(min = 1)
 	private List<@NotBlank String> frameworks = new ArrayList<>();
+
+	@NotNull
+	@Pattern(regexp = CreateUserForm.DATE_PATTERN)
+	private String birthDate;
 
 	private UpdateUserForm(Builder builder) {
 		this.id = builder.id;
@@ -58,6 +63,7 @@ public class UpdateUserForm {
 		this.zipCode = builder.zipCode;
 		this.gender = builder.gender;
 		this.frameworks = builder.frameworks;
+		this.birthDate = builder.birthDate;
 	}
 	
 	public UpdateUserForm() {
@@ -139,6 +145,14 @@ public class UpdateUserForm {
 		frameworks.add(framework);
 	}
 
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	@Override
 	public String toString() {
 		return "CreateUserForm [name=" + name + ", email=" + email + ", country=" + country + ", city=" + city + ", state="
@@ -160,6 +174,7 @@ public class UpdateUserForm {
 		private String zipCode;
 		private String gender;
 		private List<String> frameworks = new ArrayList<>();
+		private String birthDate;
 
 		private Builder() {
 		}
@@ -206,6 +221,11 @@ public class UpdateUserForm {
 
 		public Builder setFrameworks(List<String> frameworks) {
 			this.frameworks = frameworks;
+			return this;
+		}
+
+		public Builder setBirthDate(String birthDate) {
+			this.birthDate = birthDate;
 			return this;
 		}
 

@@ -4,9 +4,10 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="user-management-tool">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>com.endava.user.management.domain.Address</class>
 		<class>com.endava.user.management.domain.User</class>
 		<class>com.endava.user.management.domain.Framework</class>
+		<class>com.endava.user.management.domain.Address</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.ejb.cfgfile" value="hibernate.cfg.xml" />
 		</properties>

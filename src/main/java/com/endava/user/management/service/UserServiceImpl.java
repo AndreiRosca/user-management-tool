@@ -125,12 +125,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private User buildUserFromRequest(UpdateUserForm userForm) {
+		User oldUser = findById(Long.valueOf(userForm.getId()));
 		User user = User.newBuilder()
 				.setId(Long.valueOf(userForm.getId()))
 				.setName(userForm.getName())
 				.setEmail(userForm.getEmail())
 				.setSex(Gender.valueOf(userForm.getGender().toUpperCase()))
 				.setFrameworks(getFormFrameworks(userForm))
+				.setBirthDate(parseBirthdate(userForm.getBirthDate()))
+				.setCvFilePath(oldUser.getCvFilePath())
+				.setCvFileContent(oldUser.getCvFileContent())
 				.setAddress(Address.newBuilder()
 						.setCountry(userForm.getCountry())
 						.setCity(userForm.getCity())
